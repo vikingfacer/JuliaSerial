@@ -5,6 +5,11 @@
  * Returns the file descriptor on success or -1 on error.
  */
 
+int test(){
+	return 5;
+}
+
+
 int open_port(char* str)
 {
   int fd; /* File descriptor for the port */

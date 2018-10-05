@@ -1,10 +1,15 @@
 
 includes = "JuliaSerial.h"
-complier = "clang"
+complier = "gcc"
 flags = "-shared -fPIC"
+
+lib: juliaSerial.so
 
 test: juliaSerialTest.o juliaSerial.o
 	$(complier) -l $(flags) $^ -o $@
+
+%.so: %.c 
+	$(complier) $(flags) $^ -o $@
 
 %.o: %.c $(includes)
 	$(complier) -l $(flags)-c $^  -o $@ 
