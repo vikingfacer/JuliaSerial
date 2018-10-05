@@ -17,13 +17,13 @@ end
 
 function swrite(port::Number, msg::String)
 	# int swrite(int port, char* msg, const int size)
-	return ccall((:swrite, "./juliaSerial"), Cint, (Cint, Cstring, Cint), Cint(port), Cstring(msg), Cint(length(msg)+1))
+	return ccall((:swrite, "./juliaSerial"), Cint, (Cint, Cstring, Cint), Cint(port), msg, Cint(sizeof(msg)))
 end
 
 function sread(port::Number)
 	# int sread(const int port, char* msg, const int size)
 	msg = Vector{UInt8}(undef, 255)
-	ccall((:sread, "./juliaSerial"), Cint, (Cint, Ptr{UInt8}, Cint), Cint(port), msg, Cint(sizeof(msg)))
+	bytes = ccall((:sread, "./juliaSerial"), Cint, (Cint, Ptr{UInt8}, Cint), Cint(port), msg, Cint(sizeof(msg)))
     msg[end] = 0; # ensure null-termination
-    return unsafe_string(pointer(msg))
+    return (bytes, String(unsafe_string(pointer(msg))))
 end
