@@ -16,14 +16,20 @@ int main(int argc, char const *argv[])
 	int n = 0;
 	char buf[255];
 	char msg[] = "this is a message did you get it?";
-	while(1){
-		if(swrite(port, msg, sizeof(msg)) == -1){
-			printf("this is messed up\n" );
-		}
-		sleep(1);
-		memset(buf, '\0', sizeof(buf));
-		sread(port, buf, 255);
-		printf("%s\n", buf);
+	// while(1){
+	if(swrite(port, msg, sizeof(msg)) == -1){
+		printf("this is messed up\n" );
 	}
+	// 	sleep(1);
+	// 	memset(buf, '\0', sizeof(buf));
+	// 	sread(port, buf, 255);
+	// 	printf("%s\n", buf);
+	// }
+
+	sread(port, buf, 255);
+
+
+	printf("%s\n",buf );
+
 	return 0;
 }

@@ -5,6 +5,10 @@
  * Returns the file descriptor on success or -1 on error.
  */
 
+
+// this needs flush commands 
+
+
 int test(){
 	return 5;
 }
@@ -99,14 +103,38 @@ int swrite(int port, char* msg, const int size)
 
 int sread(const int port, char* msg, const int size)
 {
-	int n;
-	if (n = read(port, msg, size - 1) > 0)
-	{
-		return n;
-	}else
-	if (n < 0)
-	{
-		perror("read");
-		return -1;
-	}
+    // this should read till the end or till a certain amount is read 
+	int total = 0, n = 0;
+    char temp[255];
+    memset(temp, '\0', 255);
+    // while(n < size - 1){
+    	if ((n = read(port, temp, size - 1)) < 0)
+    	{
+    		perror("read");
+    		total = -1;
+            // break;
+    	}
+     //    if (n+total >= 255)
+     //    {
+     //        // if there is space in the buffer well try and add it
+     //        n = n % (255 - total);
+     //        strncpy(temp, temp, n);
+     //        strcat(msg, temp);
+     //        break;
+     //    }
+     //    if(n > 0 && n < 255)
+     //    {
+     //        if(temp[n-1] == '\0'){
+     //            printf("here \n");
+     //            break;
+     //        }
+     //        else
+     //        {
+     //            strcat(msg, temp);
+     //            total += n;
+     //            printf("bytes: %d, %s\n",total, msg);
+     //        }
+     //    }
+    // }
+    return total;
 }

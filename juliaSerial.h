@@ -4,7 +4,7 @@
 #include <fcntl.h>   /* File control definitions */
 #include <errno.h>   /* Error number definitions */
 #include <termios.h> /* POSIX terminal control definitions */
-
+#include <string.h>
 int open_port(char* str);
 
 int set_interface_attribs(int port, int speed);

@@ -6,9 +6,11 @@ n =0
 port = open_port("/dev/ttyUSB0")
 
 set_attrs(port, 1152000)
-
+function test()
 for i=1:10
-	@show swrite(port, "Hello\n")
-
+	# @show swrite(port, "Hello\n")
+	sleep(.5)
 	@show sread(port)
 end
+
+end 
