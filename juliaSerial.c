@@ -25,8 +25,8 @@ int open_port(char* str)
    /*
     * Could not open the port.
     */
-    char msg[100];
-    sprintf(msg, "open_port: Unable to open %s - %s", str, strerror(errno));
+    char msg[100] = {0};
+    snprintf(msg, sizeof(msg), "open_port: Unable to open %s - %s", str, strerror(errno));
     perror("open_port: Unable to open /dev/ttyUSB0 - ");
   }
   else
@@ -37,7 +37,7 @@ int open_port(char* str)
 
 int set_interface_attribs(int port, int speed)
 {
-    struct termios tty;
+    struct termios tty = {0};
 
     if (tcgetattr(port, &tty) < 0) {
         printf("Error from tcgetattr: %s\n", strerror(errno));
@@ -73,7 +73,7 @@ int set_interface_attribs(int port, int speed)
 
 void set_mincount(int port, int mcount)
 {
-    struct termios tty;
+    struct termios tty = {0};
 
     if (tcgetattr(port, &tty) < 0) {
         printf("Error tcgetattr: %s\n", strerror(errno));
@@ -89,7 +89,7 @@ void set_mincount(int port, int mcount)
 
 int swrite(int port, char* msg, const int size)
 {
-	int n;
+	int n = 0;
 	if( n = write(port, msg, size) > 0)
 	{
 		tcdrain(port);  // delay for output
@@ -105,7 +105,7 @@ int sread(const int port, char* msg, const int size)
 {
     // this should read till the end or till a certain amount is read 
 	int total = 0, n = 0;
-    char temp[255];
+    char temp[255] = {0};
     memset(temp, '\0', 255);
     // while(n < size - 1){
     	if ((n = read(port, temp, size - 1)) < 0)
