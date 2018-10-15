@@ -5,6 +5,10 @@ function open_port(dev::String)
 	return port
 end
 
+function close_port(port::Number) 
+	return ccall((:close, ), Cint, (Cint,), port)
+end
+
 function set_attrs(port::Number, speed::Number)
 	# int set_interface_attribs(int port, int speed)
 	return ccall((:set_interface_attribs, "./juliaSerial"), Cint, (Cint, Cint,), Cint(port), Cint(speed))

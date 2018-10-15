@@ -1,7 +1,7 @@
 
 includes = "JuliaSerial.h"
 complier = "gcc"
-flags = "-shared -fPIC"
+flags = " -shared -fPIC"
 
 lib: juliaSerial.so
 
@@ -9,7 +9,7 @@ test: juliaSerialTest.o juliaSerial.o
 	$(complier) -l $(flags) $^ -o $@
 
 %.so: %.c 
-	$(complier) $(flags) $^ -o $@
+	$(complier) -l $(flags) -c $^ -o $@
 
 %.o: %.c $(includes)
 	$(complier) -l $(flags)-c $^  -o $@ 
@@ -21,7 +21,6 @@ juliaSerial.o: juliaSerial.c
 .phony: clean 
 
 clean:
-	rm *.o test
-
+	rm *.*o & rm test & rm *.c.*
 
 # new command 	# gcc -shared -fPIC -dynamiclib juliaSerial.c -o juliaSerial.so 

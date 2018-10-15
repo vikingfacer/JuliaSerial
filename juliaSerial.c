@@ -8,12 +8,6 @@
 
 // this needs flush commands 
 
-
-int test(){
-	return 5;
-}
-
-
 int open_port(char* str)
 {
   int fd; /* File descriptor for the port */
@@ -27,13 +21,15 @@ int open_port(char* str)
     */
     char msg[100];
     sprintf(msg, "open_port: Unable to open %s - %s", str, strerror(errno));
-    perror("open_port: Unable to open /dev/ttyUSB0 - ");
+    perror(msg);
   }
   else
     fcntl(fd, F_SETFL, 0);
 
   return (fd);
 }
+
+
 
 int set_interface_attribs(int port, int speed)
 {
@@ -60,8 +56,8 @@ int set_interface_attribs(int port, int speed)
     tty.c_oflag &= ~OPOST;
 
     /* fetch bytes as they become available */
-    tty.c_cc[VMIN] = 1;
-    tty.c_cc[VTIME] = 1;
+    tty.c_cc[VMIN] = 0;
+    tty.c_cc[VTIME] = 0;
 
     if (tcsetattr(port, TCSANOW, &tty) != 0) {
         printf("Error from tcsetattr: %s\n", strerror(errno));
@@ -107,34 +103,11 @@ int sread(const int port, char* msg, const int size)
 	int total = 0, n = 0;
     char temp[255];
     memset(temp, '\0', 255);
-    // while(n < size - 1){
-    	if ((n = read(port, temp, size - 1)) < 0)
+    	if ((n = read(port, msg, size - 1)) < 0)
     	{
     		perror("read");
     		total = -1;
-            // break;
     	}
-     //    if (n+total >= 255)
-     //    {
-     //        // if there is space in the buffer well try and add it
-     //        n = n % (255 - total);
-     //        strncpy(temp, temp, n);
-     //        strcat(msg, temp);
-     //        break;
-     //    }
-     //    if(n > 0 && n < 255)
-     //    {
-     //        if(temp[n-1] == '\0'){
-     //            printf("here \n");
-     //            break;
-     //        }
-     //        else
-     //        {
-     //            strcat(msg, temp);
-     //            total += n;
-     //            printf("bytes: %d, %s\n",total, msg);
-     //        }
-     //    }
-    // }
+        total = n;
     return total;
 }
