@@ -11,6 +11,7 @@ for i=1:10
 	@show swrite(port, "Hello\n")
 	sleep(.5)
 	@show sread(port)
+	sflush(port)
 end
 
 end 
